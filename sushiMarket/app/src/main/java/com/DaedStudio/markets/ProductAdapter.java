@@ -27,7 +27,7 @@ class ProductAdapter extends ArrayAdapter<Product> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         final ViewHolder viewHolder;
-        if(convertView==null){
+        if(convertView == null){
             convertView = inflater.inflate(this.layout, parent, false);
             viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
@@ -35,6 +35,7 @@ class ProductAdapter extends ArrayAdapter<Product> {
         else{
             viewHolder = (ViewHolder) convertView.getTag();
         }
+
         final Product product = productList.get(position);
 
         viewHolder.nameView.setText(product.getName());
