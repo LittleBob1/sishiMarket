@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.DaedStudio.markets">
-
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,13 +10,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MarketS">
         <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
             android:name=".histAct"
             android:exported="false" />
         <activity
             android:name=".createShop"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".MainName"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

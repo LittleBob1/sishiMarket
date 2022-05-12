@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">marketS</string>
+
+    <string name="nameExist">Такой никнейм уже существует</string>
+    <string name="regSucess">Вы успешно зарегистрировались</string>
+    <string name="regError">Ошибка регистрации\nПроверьте соединение с интернетом</string>
+    <string name="logSucess">Вы успешно вошли</string>
+    <string name="logFail">Ошибка входа\nНеправильный пароль или E-mail либо нет подключения к интернету.</string>
+    <string name="pasNotMac">Пароли не совпадают</string>
+    <string name="validData">Введите корректный E-mail\nПароль должен быть больше 6 символов\nНикнейм должен быть больше 3 символов</string>
+    <string name="validTwo">Введите корректный E-mail\nПароль должен быть больше 6 символов</string>
 </resources>
