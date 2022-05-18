@@ -1,19 +1,34 @@
 package com.DaedStudio.markets;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.annotations.Nullable;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
@@ -22,9 +37,19 @@ public class createShop extends AppCompatActivity {
 
     private String shop;
 
+    private FirebaseAuth mAuth;
+    FirebaseUser user;
+    FirebaseDatabase database;
+    DatabaseReference myRef;
+
     private TextView textShop;
+    private TextView full;
+    private CheckBox box;
     private EditText fio;
     private EditText numb;
+
+    private int sale = 0;
+    private int ghg = 0;
 
     SharedPreferences mSettings;
 
@@ -56,13 +81,102 @@ public class createShop extends AppCompatActivity {
         mSettings = getSharedPreferences("history", Context.MODE_PRIVATE);
 
         textShop = (TextView) findViewById(R.id.shop);
+        full = (TextView)findViewById(R.id.full);
+        box = (CheckBox)findViewById(R.id.checkBox);
         fio = (EditText) findViewById(R.id.fio);
         numb = (EditText) findViewById(R.id.numb);
-        textShop.setText("Ваш заказ:\n" + shop + "\n\nИтого: " + MainActivity.total + " руб.");
+        textShop.setText("Ваш заказ:\n" + shop);
+
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("AllUsers").child(user.getDisplayName());
+
+        Object g = MainActivity.total;
+        full.setText("Итого: " + g.toString());
+
+        Log.e("sdf", myRef.toString());
+
+        Query myQuery = myRef;
+        myQuery.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                if(ghg == 3) {
+                    Log.e("sdf", user.getDisplayName());
+                    box.setText("Использовать " + dataSnapshot.getValue().toString() + " баллов");
+                    sale = Integer.parseInt(dataSnapshot.getValue().toString());
+                }
+                ghg++;
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        box.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(box.isChecked()){
+                    if(MainActivity.total <= sale){
+                        full.setText("Итого: 0");
+                    }else {
+                        MainActivity.total -= sale;
+                        Object g = MainActivity.total;
+                        full.setText("Итого: " + g.toString());
+                    }
+                }
+                if(!box.isChecked()){
+                    if(MainActivity.total <= sale){
+                        Object g = MainActivity.total;
+                        full.setText("Итого: " + g.toString());
+                    }else {
+                        MainActivity.total += sale;
+                        Object g = MainActivity.total;
+                        full.setText("Итого: " + g.toString());
+                    }
+                }
+
+            }
+        });
+
     }
+
 
     public void trueBuy(View view){
         if(fio.getText().length() > 3 && numb.getText().length() > 3 && MainActivity.total > 0){
+
+            if(box.isChecked()){
+                if(MainActivity.total < sale){
+                    sale -= MainActivity.total;
+                }else {
+                    sale = 0;
+                }
+            }
+            sale += MainActivity.total / 100 * 10;
+            ArrayList<Object> fire = new ArrayList<Object>();
+            fire.add(0);
+            fire.add(0);
+            fire.add(0);
+            fire.add(sale);
+            myRef.setValue(fire);
+
             SharedPreferences.Editor editor = mSettings.edit();
             String s = "";
             Date currentDate = new Date();
@@ -79,6 +193,7 @@ public class createShop extends AppCompatActivity {
             Toast.makeText(this, "Ожидайте", Toast.LENGTH_SHORT).show();
             MainActivity.total = 0;
             Intent cr = new Intent(this, MainActivity.class);
+            cr.putExtra("fff", 0);
             startActivity(cr);
             finish();
         }else{
@@ -89,6 +204,7 @@ public class createShop extends AppCompatActivity {
     public void cancel(View view){
         MainActivity.total = 0;
         Intent cr = new Intent(this, MainActivity.class);
+        cr.putExtra("fff", 0);
         startActivity(cr);
         finish();
     }

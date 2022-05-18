@@ -27,6 +27,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class MainName extends AppCompatActivity {
@@ -121,7 +123,12 @@ public class MainName extends AppCompatActivity {
                             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(nameText.getText().toString()).build();
                             user.updateProfile(profileUpdates);
                             myRef = database.getReference("AllUsers").child(nameText.getText().toString());
-                            myRef.setValue(email + "ThisIsMarkets");
+                            ArrayList<Object> fire = new ArrayList<Object>();
+                            fire.add(0);
+                            fire.add(0);
+                            fire.add(0);
+                            fire.add(0);
+                            myRef.setValue(fire);
                             Toast.makeText(MainName.this, R.string.regSucess, Toast.LENGTH_LONG).show();
                             walkToCreate();
                         } else {
