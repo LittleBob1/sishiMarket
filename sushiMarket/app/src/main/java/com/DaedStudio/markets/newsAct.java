@@ -1,6 +1,7 @@
 package com.DaedStudio.markets;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.os.Bundle;
 import android.view.View;
@@ -31,7 +32,7 @@ public class newsAct extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_IMMERSIVE;
         decorView.setSystemUiVisibility(uiOptions);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         Bundle bundle = getIntent().getExtras();
         if(bundle != null){
             String s = bundle.getString("sale");

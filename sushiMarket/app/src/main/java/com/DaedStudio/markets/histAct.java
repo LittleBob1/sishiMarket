@@ -1,6 +1,7 @@
 package com.DaedStudio.markets;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -35,7 +36,7 @@ public class histAct extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_IMMERSIVE;
         decorView.setSystemUiVisibility(uiOptions);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         mSettings = getSharedPreferences("history", Context.MODE_PRIVATE);
         his = (TextView) findViewById(R.id.hist);
 

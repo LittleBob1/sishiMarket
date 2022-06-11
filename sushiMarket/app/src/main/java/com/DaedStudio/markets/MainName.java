@@ -71,7 +71,7 @@ public class MainName extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_LOW_PROFILE
                 | View.SYSTEM_UI_FLAG_IMMERSIVE;
         decorView.setSystemUiVisibility(uiOptions);
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         mAuth = FirebaseAuth.getInstance();
 
         mainName = (TextView) findViewById(R.id.textView8);

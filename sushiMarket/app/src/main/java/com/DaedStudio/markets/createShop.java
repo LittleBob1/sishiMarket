@@ -2,10 +2,12 @@ package com.DaedStudio.markets;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.hardware.lights.Light;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -58,6 +60,7 @@ public class createShop extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_shop);
 
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         Objects.requireNonNull(getSupportActionBar()).hide();
         View decorView = getWindow().getDecorView(); //скрыть панель навигации
         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
